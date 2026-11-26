@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_transfer_user,hr.transfer.user,model_hr_transfer,base.group_user,1,1,1,0
+access_hr_transfer_manager,hr.transfer.manager,model_hr_transfer,hr.group_hr_user,1,1,1,1
+access_hr_transfer_admin,hr.transfer.admin,model_hr_transfer,hr.group_hr_manager,1,1,1,1
+access_hr_promotion_user,hr.promotion.user,model_hr_promotion,base.group_user,1,1,1,0
+access_hr_promotion_manager,hr.promotion.manager,model_hr_promotion,hr.group_hr_user,1,1,1,1
+access_hr_promotion_admin,hr.promotion.admin,model_hr_promotion,hr.group_hr_manager,1,1,1,1
+access_hr_disciplinary_user,hr.disciplinary.user,model_hr_disciplinary_action,base.group_user,1,1,1,0
+access_hr_disciplinary_officer,hr.disciplinary.officer,model_hr_disciplinary_action,hr.group_hr_user,1,1,1,1
+access_hr_disciplinary_admin,hr.disciplinary.admin,model_hr_disciplinary_action,hr.group_hr_manager,1,1,1,1

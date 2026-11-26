@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top-Level Process Menu in HR Root -->
+    <menuitem id="menu_hr_process_root" name="HR Processes" parent="hr.menu_hr_root" sequence="22"/>
+
+    <!-- Sub-menus -->
+    <menuitem id="menu_hr_transfer" name="Transfers" parent="menu_hr_process_root" action="action_hr_transfer" sequence="10"/>
+    <menuitem id="menu_hr_promotion" name="Promotions &amp; Demotions" parent="menu_hr_process_root" action="action_hr_promotion" sequence="20"/>
+    <menuitem id="menu_hr_disciplinary" name="Disciplinary Actions" parent="menu_hr_process_root" action="action_hr_disciplinary" sequence="30"/>
+</odoo>

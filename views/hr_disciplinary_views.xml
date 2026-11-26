@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Disciplinary Form View -->
+    <record id="view_hr_disciplinary_form" model="ir.ui.view">
+        <field name="name">hr.disciplinary.action.form</field>
+        <field name="model">hr.disciplinary.action</field>
+        <field name="arch" type="xml">
+            <form string="Disciplinary Action">
+                <header>
+                    <button name="action_request_explanation" string="Request Explanation" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_proceed_inquiry" string="Proceed to Hearing" type="object" class="btn-primary" invisible="state != 'explanation'"/>
+                    <button name="action_decide_sanction" string="Approve Sanction" type="object" class="btn-warning" invisible="state != 'inquiry'" groups="hr.group_hr_user"/>
+                    <button name="action_trigger_dismissal_clearance" string="Start Exit Clearance" type="object" class="btn-danger" invisible="state != 'decided' or action_type != 'dismissal'"/>
+                    <button name="action_close_case" string="Close Case" type="object" class="btn-secondary" invisible="state != 'decided'"/>
+                    <button name="action_cancel" string="Exonerate / Cancel" type="object" class="btn-outline-secondary" invisible="state not in ('draft', 'explanation', 'inquiry')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,explanation,inquiry,decided,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Incident Reference"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Employee &amp; Incident">
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="manager_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="incident_date"/>
+                        </group>
+                        <group string="Offense &amp; Decided Action">
+                            <field name="offense_category"/>
+                            <field name="action_type" widget="badge"
+                                   decoration-info="action_type == 'verbal'"
+                                   decoration-warning="action_type in ('first_written', 'second_written')"
+                                   decoration-danger="action_type in ('final_written', 'suspension', 'demotion', 'dismissal')"/>
+                            <field name="sanction_approved_by"/>
+                        </group>
+                    </group>
+                    <group string="Incident Details">
+                        <field name="incident_description" placeholder="Describe the policy violation, incident context, and witnesses..."/>
+                    </group>
+                    <notebook>
+                        <page string="Employee Defense &amp; Explanation" name="explanation_tab">
+                            <group>
+                                <field name="employee_explanation" placeholder="Record employee statement or defense submitted during inquiry..."/>
+                            </group>
+                        </page>
+                        <page string="Hearing &amp; Committee Findings" name="hearing_tab">
+                            <group>
+                                <field name="hearing_date"/>
+                                <field name="hearing_findings" placeholder="Committee members, evidence reviewed, and final verdict recommendations..."/>
+                            </group>
+                        </page>
+                        <page string="Suspension &amp; Expiry Details" name="terms_tab">
+                            <group>
+                                <group string="Suspension (If Applicable)">
+                                    <field name="suspension_days"/>
+                                    <field name="suspension_start"/>
+                                    <field name="suspension_end"/>
+                                </group>
+                                <group string="Warning Validity &amp; Expiry">
+                                    <field name="warning_validity_months"/>
+                                    <field name="warning_expiry_date"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Disciplinary List View -->
+    <record id="view_hr_disciplinary_tree" model="ir.ui.view">
+        <field name="name">hr.disciplinary.action.list</field>
+        <field name="model">hr.disciplinary.action</field>
+        <field name="arch" type="xml">
+            <list string="Disciplinary Records">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="incident_date"/>
+                <field name="offense_category"/>
+                <field name="action_type" widget="badge"
+                       decoration-info="action_type == 'verbal'"
+                       decoration-warning="action_type in ('first_written', 'second_written')"
+                       decoration-danger="action_type in ('final_written', 'suspension', 'demotion', 'dismissal')"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('draft', 'explanation')"
+                       decoration-warning="state in ('inquiry', 'decided')"
+                       decoration-success="state == 'closed'"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_hr_disciplinary" model="ir.actions.act_window">
+        <field name="name">Disciplinary Actions</field>
+        <field name="res_model">hr.disciplinary.action</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

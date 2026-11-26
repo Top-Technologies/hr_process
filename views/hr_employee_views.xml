@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit Employee Form View: Add Smart Buttons and Career History Tab -->
+    <record id="view_employee_form_process_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.form.process.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority">45</field>
+        <field name="arch" type="xml">
+            <!-- Smart Stat Buttons -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_transfers" type="object" class="oe_stat_button" icon="fa-exchange">
+                    <field name="transfer_count" widget="statinfo" string="Transfers"/>
+                </button>
+                <button name="action_view_promotions" type="object" class="oe_stat_button" icon="fa-line-chart">
+                    <field name="promotion_count" widget="statinfo" string="Promotions"/>
+                </button>
+                <button name="action_view_disciplinary" type="object" class="oe_stat_button" icon="fa-gavel" groups="hr.group_hr_user">
+                    <field name="disciplinary_count" widget="statinfo" string="Disciplinary"/>
+                </button>
+            </xpath>
+
+            <!-- Disciplinary Standing Badge beside Job Position / Department -->
+            <xpath expr="//field[@name='job_id']" position="after">
+                <field name="active_disciplinary_status" widget="badge" readonly="1" groups="hr.group_hr_user"
+                       decoration-success="active_disciplinary_status == 'clean'"
+                       decoration-warning="active_disciplinary_status == 'under_warning'"
+                       decoration-danger="active_disciplinary_status == 'suspended'"/>
+            </xpath>
+
+            <!-- Career & Internal Process History Notebook Page -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Career &amp; Process History" name="career_history_tab" groups="hr.group_hr_user">
+                    <group string="Transfer History">
+                        <field name="transfer_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="name"/>
+                                <field name="transfer_type"/>
+                                <field name="current_department_id"/>
+                                <field name="new_department_id"/>
+                                <field name="effective_date"/>
+                                <field name="state" widget="badge"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Promotions &amp; Career Adjustments">
+                        <field name="promotion_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="name"/>
+                                <field name="process_type" widget="badge"/>
+                                <field name="current_job_id"/>
+                                <field name="new_job_id"/>
+                                <field name="current_wage"/>
+                                <field name="new_wage"/>
+                                <field name="effective_date"/>
+                                <field name="state" widget="badge"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group string="Disciplinary History">
+                        <field name="disciplinary_ids" nolabel="1" readonly="1">
+                            <list>
+                                <field name="name"/>
+                                <field name="incident_date"/>
+                                <field name="offense_category"/>
+                                <field name="action_type" widget="badge"/>
+                                <field name="warning_expiry_date"/>
+                                <field name="state" widget="badge"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

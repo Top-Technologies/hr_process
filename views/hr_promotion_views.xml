@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Promotion / Demotion Form View -->
+    <record id="view_hr_promotion_form" model="ir.ui.view">
+        <field name="name">hr.promotion.form</field>
+        <field name="model">hr.promotion</field>
+        <field name="arch" type="xml">
+            <form string="Promotion &amp; Demotion">
+                <header>
+                    <button name="action_submit" string="Submit to HR" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_hr_validate" string="Validate (HR)" type="object" class="btn-primary" invisible="state != 'submitted'" groups="hr.group_hr_user"/>
+                    <button name="action_gm_approve" string="GM Approve" type="object" class="btn-success" invisible="state != 'hr_validated'" groups="hr.group_hr_manager"/>
+                    <button name="action_apply_career_change" string="Apply Changes" type="object" class="btn-success" invisible="state != 'approved'" groups="hr.group_hr_user"/>
+                    <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="state not in ('submitted', 'hr_validated')"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" class="btn-secondary" invisible="state not in ('rejected', 'draft')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,hr_validated,approved,applied"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Process Reference"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Employee &amp; Type">
+                            <field name="employee_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="process_type" widget="radio"/>
+                            <field name="effective_date"/>
+                        </group>
+                        <group string="Approval &amp; Audit">
+                            <field name="approved_by_id"/>
+                            <field name="approval_date"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Current Job &amp; Compensation">
+                            <field name="current_department_id"/>
+                            <field name="current_job_id"/>
+                            <field name="current_job_title"/>
+                            <field name="current_wage" widget="monetary"/>
+                        </group>
+                        <group string="New Proposed Position &amp; Wage">
+                            <field name="new_department_id"/>
+                            <field name="new_job_id"/>
+                            <field name="new_job_title"/>
+                            <field name="new_wage" widget="monetary"/>
+                            <field name="salary_change_percentage" widget="percentage"/>
+                        </group>
+                    </group>
+                    <group string="Justification &amp; Appraisal">
+                        <field name="justification" placeholder="State reason, KPI achievements, appraisal score, or organizational restructuring..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Promotion List View -->
+    <record id="view_hr_promotion_tree" model="ir.ui.view">
+        <field name="name">hr.promotion.list</field>
+        <field name="model">hr.promotion</field>
+        <field name="arch" type="xml">
+            <list string="Promotions &amp; Demotions">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="process_type" widget="badge"
+                       decoration-success="process_type == 'promotion'"
+                       decoration-warning="process_type == 'demotion'"/>
+                <field name="current_job_id"/>
+                <field name="new_job_id"/>
+                <field name="current_wage"/>
+                <field name="new_wage"/>
+                <field name="salary_change_percentage"/>
+                <field name="effective_date"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('draft', 'submitted')"
+                       decoration-warning="state in ('hr_validated', 'approved')"
+                       decoration-success="state == 'applied'"
+                       decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_hr_promotion" model="ir.actions.act_window">
+        <field name="name">Promotions &amp; Demotions</field>
+        <field name="res_model">hr.promotion</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
