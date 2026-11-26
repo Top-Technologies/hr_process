@@ -27,7 +27,6 @@ odoo-server.log
 *.sock
 sessions/
 filestore/
-data/
 .pgpass
 
 # ==============================

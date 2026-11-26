@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequence for Transfer -->
+        <record id="seq_hr_transfer" model="ir.sequence">
+            <field name="name">Employee Transfer</field>
+            <field name="code">hr.transfer</field>
+            <field name="prefix">TRF/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Promotion -->
+        <record id="seq_hr_promotion" model="ir.sequence">
+            <field name="name">Employee Promotion</field>
+            <field name="code">hr.promotion</field>
+            <field name="prefix">PRM/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Demotion -->
+        <record id="seq_hr_demotion" model="ir.sequence">
+            <field name="name">Employee Demotion</field>
+            <field name="code">hr.demotion</field>
+            <field name="prefix">DMT/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequence for Disciplinary Action -->
+        <record id="seq_hr_disciplinary" model="ir.sequence">
+            <field name="name">Disciplinary Action</field>
+            <field name="code">hr.disciplinary.action</field>
+            <field name="prefix">DIS/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
