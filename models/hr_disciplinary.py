@@ -24,7 +24,7 @@ class HrDisciplinaryAction(models.Model):
         ('suspension', 'Suspension'),
         ('demotion', 'Disciplinary Demotion'),
         ('dismissal', 'Dismissal / Termination'),
-    ], string='Action / Penalty Type', required=True, tracking=True)
+    ], string='Action / Penalty Type', tracking=True)
 
     offense_category = fields.Selection([
         ('attendance', 'Attendance / Lateness / Absenteeism'),
@@ -88,6 +88,8 @@ class HrDisciplinaryAction(models.Model):
 
     def action_decide_sanction(self):
         for rec in self:
+            if not rec.action_type:
+                raise UserError(_("Please select an Action / Penalty Type before approving the sanction."))
             rec.state = 'decided'
             rec.sanction_approved_by = self.env.user
             rec.message_post(body=_("Disciplinary sanction (%s) formally approved and decided by %s.") % (
