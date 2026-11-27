@@ -30,10 +30,7 @@
                         </group>
                         <group string="Offense &amp; Decided Action">
                             <field name="offense_category"/>
-                            <field name="action_type" widget="badge"
-                                   decoration-info="action_type == 'verbal'"
-                                   decoration-warning="action_type in ('first_written', 'second_written')"
-                                   decoration-danger="action_type in ('final_written', 'suspension', 'demotion', 'dismissal')"/>
+                            <field name="action_type" placeholder="Select Penalty..."/>
                             <field name="sanction_approved_by"/>
                         </group>
                     </group>
